@@ -6,6 +6,7 @@ namespace Refactoring.Web.Services {
     public class OrderService{
         private readonly Order _order;
 
+
         public OrderService(Order order) {
             _order = order;
             _order.Id = Guid.NewGuid().ToString();
