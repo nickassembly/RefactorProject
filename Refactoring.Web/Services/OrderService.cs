@@ -7,7 +7,6 @@ namespace Refactoring.Web.Services
 {
    public class OrderService : IOrderService
    {
-      private readonly Order _order;
       private readonly IDealService _dealService;
       private readonly IChamberOfCommerceApi _chamberOfCommerceApi;
 
@@ -17,17 +16,13 @@ namespace Refactoring.Web.Services
          _chamberOfCommerceApi = chamberOfCommerceApi;
       }
 
-      public OrderService(Order order)
+      public async Task<Order> ProcessOrder(Order order)
       {
-         _order = order;
-         _order.Id = Guid.NewGuid().ToString();
-         _order.CreatedOn = DateTime.Now;
-         _order.UpdatedOn = DateTime.Now;
-      }
+         order.Id = Guid.NewGuid().ToString();
+         order.CreatedOn = DateTime.Now;
+         order.UpdatedOn = DateTime.Now;
 
-      public async Task ProcessOrder()
-      {
-         if (_order.District.ToLower() == "cambridge")
+         if (order.District.ToLower() == "cambridge")
          {
             var advert = new Advert();
             advert.CreatedOn = DateTime.Now;
@@ -38,11 +33,11 @@ namespace Refactoring.Web.Services
                var result = await _chamberOfCommerceApi.GetFor("Middleton");
                advert.ImageUrl = result.ThumbnailUrl;
             }
-            _order.Advert = advert;
+            order.Advert = advert;
             PrintAdvert(advert, false);
-            _order.Status = "Complete";
+            order.Status = "Complete";
          }
-         else if (_order.District.ToLower() == "middleton")
+         else if (order.District.ToLower() == "middleton")
          {
             var advert = new Advert();
             advert.CreatedOn = DateTime.Now;
@@ -52,21 +47,21 @@ namespace Refactoring.Web.Services
             advert.Content = "Get " + deal * 100 + "Percent off your next purchase!";
             var result = await _chamberOfCommerceApi.GetFor("Middleton");
             advert.ImageUrl = result.ThumbnailUrl;
-            _order.Advert = advert;
+            order.Advert = advert;
             PrintAdvert(advert, false);
-            _order.Status = "Complete";
+            order.Status = "Complete";
          }
-         else if (_order.District.ToLower() == "county")
+         else if (order.District.ToLower() == "county")
          {
             var advert = new Advert();
             advert.CreatedOn = DateTime.Now;
             advert.Heading = "County Diner";
             advert.Content = "Kids eat free every Thursday night";
-            _order.Advert = advert;
+            order.Advert = advert;
             PrintAdvert(advert, false);
-            _order.Status = "Complete";
+            order.Status = "Complete";
          }
-         else if (_order.District.ToLower() == "downtown")
+         else if (order.District.ToLower() == "downtown")
          {
             if (DateTime.Now.DayOfWeek == DayOfWeek.Saturday || DateTime.Now.DayOfWeek == DayOfWeek.Sunday)
             {
@@ -76,10 +71,11 @@ namespace Refactoring.Web.Services
             advert.Heading = "Downtown Coffee Roasters";
             advert.CreatedOn = DateTime.Now;
             advert.Content = "Get a free coffee drink when you buy 1lb of coffee beans";
-            _order.Advert = advert;
+            order.Advert = advert;
             PrintAdvert(advert, false);
-            _order.Status = "Complete";
+            order.Status = "Complete";
          }
+         return order;
       }
 
       private void PrintAdvert(Advert advert, bool IsDefaultAdvert)
@@ -95,9 +91,5 @@ namespace Refactoring.Web.Services
          System.Threading.Thread.Sleep(3000);
       }
 
-      public Order GetOrder()
-      {
-         return _order;
-      }
    }
 }
