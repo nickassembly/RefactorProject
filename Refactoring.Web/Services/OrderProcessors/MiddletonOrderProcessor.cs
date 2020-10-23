@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Refactoring.Web.Services.OrderProcessors
 {
-   public class MiddletonOrderProcessor
+   public class MiddletonOrderProcessor : OrderProcessor
    {
       private readonly IDealService _dealService;
       private readonly IChamberOfCommerceApi _chamberOfCommerceApi;
@@ -20,7 +20,7 @@ namespace Refactoring.Web.Services.OrderProcessors
          _chamberOfCommerceApi = chamberOfCommerceApi;
          _printer = printer;
       }
-      public async Task<Order> PrintAdvertAndUpdateOrder(Order order)
+      public override async Task<Order> PrintAdvertAndUpdateOrder(Order order)
       {
          var deal = _dealService.GenerateDeal(DateTime.Now);
          var biz = _dealService.GetRandomLocalBusiness();

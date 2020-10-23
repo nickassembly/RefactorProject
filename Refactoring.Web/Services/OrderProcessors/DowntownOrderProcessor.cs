@@ -1,10 +1,11 @@
 ﻿using Refactoring.Web.DomainModels;
 using Refactoring.Web.Services.Interfaces;
 using System;
+using System.Threading.Tasks;
 
 namespace Refactoring.Web.Services.OrderProcessors
 {
-   public class DowntownOrderProcessor
+   public class DowntownOrderProcessor : OrderProcessor
    {
       private readonly IAdvertPrinter _printer;
       public DowntownOrderProcessor(IAdvertPrinter printer)
@@ -12,7 +13,7 @@ namespace Refactoring.Web.Services.OrderProcessors
          _printer = printer;
       }
 
-      public Order PrintAdvertAndUpdateOrder(Order order)
+      public override async Task<Order> PrintAdvertAndUpdateOrder(Order order)
       {
          if (DateTime.Now.DayOfWeek == DayOfWeek.Saturday || DateTime.Now.DayOfWeek == DayOfWeek.Sunday)
          {

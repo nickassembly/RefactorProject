@@ -2,21 +2,16 @@ using System;
 using System.Threading.Tasks;
 using Refactoring.Web.DomainModels;
 using Refactoring.Web.Services.Interfaces;
-using Refactoring.Web.Services.OrderProcessors;
 
 namespace Refactoring.Web.Services
 {
    public class OrderService : IOrderService
    {
-      private readonly IDealService _dealService;
-      private readonly IChamberOfCommerceApi _chamberOfCommerceApi;
-      private readonly IAdvertPrinter _printer;
+      private readonly IDistrictOrderFactory _districtOrderFactory;
 
-      public OrderService(IDealService dealService, IChamberOfCommerceApi chamberOfCommerceApi, IAdvertPrinter printer)
+      public OrderService(IDealService dealService, IChamberOfCommerceApi chamberOfCommerceApi, IAdvertPrinter printer, IDistrictOrderFactory districtOrderFactory)
       {
-         _dealService = dealService;
-         _chamberOfCommerceApi = chamberOfCommerceApi;
-         _printer = printer;
+         _districtOrderFactory = districtOrderFactory;
       }
 
       public async Task<Order> ProcessOrder(Order order)
@@ -25,30 +20,10 @@ namespace Refactoring.Web.Services
          order.CreatedOn = DateTime.Now;
          order.UpdatedOn = DateTime.Now;
 
-         if (order.District.ToLower() == "cambridge")
-         {
-            var orderProcessor = new CambridgeOrderProcessor(_chamberOfCommerceApi, _printer);
-           order = await orderProcessor.PrintAdvertAndUpdateOrder(order);
-         }
-         else if (order.District.ToLower() == "middleton")
-         {
-            var orderProcessor = new MiddletonOrderProcessor(_dealService, _chamberOfCommerceApi, _printer);
-            order = await orderProcessor.PrintAdvertAndUpdateOrder(order);
-         }
-         else if (order.District.ToLower() == "county")
-         {
-            var orderProcessor = new CountyOrderProcessor(_printer);
-            order =  orderProcessor.PrintAdvertAndUpdateOrder(order);
-         }
-         else if (order.District.ToLower() == "downtown")
-         {
-            var orderProcessor = new DowntownOrderProcessor(_printer);
-            order = orderProcessor.PrintAdvertAndUpdateOrder(order);
-         }
-         return order;
+         var orderProcessor = _districtOrderFactory.For(order.District);
+
+         return await orderProcessor.PrintAdvertAndUpdateOrder(order);
+ 
       }
-
-
-
    }
 }

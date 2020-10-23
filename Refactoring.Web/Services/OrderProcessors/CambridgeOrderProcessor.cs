@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Refactoring.Web.Services.OrderProcessors
 {
-   public class CambridgeOrderProcessor
+   public class CambridgeOrderProcessor : OrderProcessor
    {
       private readonly IChamberOfCommerceApi _chamberOfCommerceApi;
       private readonly IAdvertPrinter _printer;
@@ -17,7 +17,7 @@ namespace Refactoring.Web.Services.OrderProcessors
          _chamberOfCommerceApi = chamberOfCommerceApi;
          _printer = printer;
       }
-      public async Task<Order> PrintAdvertAndUpdateOrder(Order order)
+      public override async Task<Order> PrintAdvertAndUpdateOrder(Order order)
       {
          var advert = new Advert();
          advert.CreatedOn = DateTime.Now;

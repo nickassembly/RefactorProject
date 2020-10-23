@@ -1,10 +1,11 @@
 ﻿using Refactoring.Web.DomainModels;
 using Refactoring.Web.Services.Interfaces;
 using System;
+using System.Threading.Tasks;
 
 namespace Refactoring.Web.Services.OrderProcessors
 {
-   public class CountyOrderProcessor
+   public class CountyOrderProcessor : OrderProcessor
    {
       private readonly IAdvertPrinter _printer;
       public CountyOrderProcessor(IAdvertPrinter printer)
@@ -12,7 +13,7 @@ namespace Refactoring.Web.Services.OrderProcessors
          _printer = printer;
       }
 
-      public Order PrintAdvertAndUpdateOrder(Order order)
+      public override async Task<Order> PrintAdvertAndUpdateOrder(Order order)
       {
          var advert = new Advert
          {
