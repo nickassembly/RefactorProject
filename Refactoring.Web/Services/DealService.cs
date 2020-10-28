@@ -1,32 +1,29 @@
+using Refactoring.Web.Services.Helpers;
 using Refactoring.Web.Services.Interfaces;
 using System;
-using System.Collections.Generic;
+using System.Linq;
 
-namespace Refactoring.Web.Services {
+namespace Refactoring.Web.Services
+{
    public class DealService : IDealService
    {
-      public DealService() { }
+
+      private const decimal PmRate = 0.1M;
+      private const decimal AmRate = 0.05M;
+
+
 
       public decimal GenerateDeal(DateTime dateTime)
-      {
-         if (dateTime.Hour > 12 && dateTime.Hour < 24)
-         {
-            return 0.1M;
-         }
-         else
-         {
-            return 0.05M;
-         }
-      }
-
+         => IsAfternoon(dateTime) ? PmRate : AmRate;    
+ 
       public string GetRandomLocalBusiness()
       {
-         var lbs = new List<string> {
-                "Barbershop", "Bakery", "Shoe Store", "Pizza Place", "Diner", "Auto Repair", "Pharmacy", "Grocery", "Bakery"
-            };
+         var localBusinesses = LocalBusiness.AllBusinesses;
          var random = new Random();
-         var idx = random.Next(lbs.Count);
-         return lbs[idx];
+         var idx = random.Next(localBusinesses.Count);
+         return localBusinesses.ToList()[idx];
       }
+
+      private static bool IsAfternoon(DateTime dateTime) => dateTime.Hour > 12 && dateTime.Hour < 24;
    }
 }
