@@ -24,7 +24,7 @@ namespace Refactoring.Web.Services.OrderProcessors
       {
          var deal = _dealService.GenerateDeal(DateTime.Now);
          var biz = _dealService.GetRandomLocalBusiness();
-         var result = await _chamberOfCommerceApi.GetFor("Middleton");
+         var result = await _chamberOfCommerceApi.GetImageAndThumbnailDataFor("Middleton");
 
          var advert = new Advert
          {

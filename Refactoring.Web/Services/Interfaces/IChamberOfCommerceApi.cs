@@ -4,6 +4,6 @@ namespace Refactoring.Web.Services.Interfaces
 {
    public interface IChamberOfCommerceApi
    {
-      Task<DataResult> GetFor(string district);
+      Task<DataResult> GetImageAndThumbnailDataFor(string district);
    }
 }
