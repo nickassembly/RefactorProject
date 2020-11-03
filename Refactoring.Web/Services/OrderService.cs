@@ -1,7 +1,7 @@
-using System;
-using System.Threading.Tasks;
 using Refactoring.Web.DomainModels;
 using Refactoring.Web.Services.Interfaces;
+using System;
+using System.Threading.Tasks;
 
 namespace Refactoring.Web.Services
 {
@@ -23,7 +23,7 @@ namespace Refactoring.Web.Services
          var orderProcessor = _districtOrderFactory.For(order.District);
 
          return await orderProcessor.PrintAdvertAndUpdateOrder(order);
- 
+
       }
    }
 }

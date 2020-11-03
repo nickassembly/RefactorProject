@@ -1,10 +1,10 @@
-using System;
-using System.Net.Http;
-using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Refactoring.Web.Services.Helpers;
 using Refactoring.Web.Services.Interfaces;
+using System;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace Refactoring.Web.Services
 {
@@ -43,9 +43,10 @@ namespace Refactoring.Web.Services
       }
    }
 
-   public struct DataResult {
-        public int Id { get; set; }
-        public string ThumbnailUrl { get; set; }
-        public string Title { get; set; }
-    }
+   public struct DataResult
+   {
+      public int Id { get; set; }
+      public string ThumbnailUrl { get; set; }
+      public string Title { get; set; }
+   }
 }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Refactoring.Web.Services.Helpers
 {
@@ -24,7 +20,7 @@ namespace Refactoring.Web.Services.Helpers
          Bakery,
          ShoeStore,
          PizzaPlace,
-         Diner, 
+         Diner,
          AutoRepair,
          Pharmacy,
          Grocery

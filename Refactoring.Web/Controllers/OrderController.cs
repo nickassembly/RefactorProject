@@ -1,8 +1,8 @@
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Refactoring.Web.DomainModels;
 using Refactoring.Web.Services.Interfaces;
+using System.Threading.Tasks;
 
 namespace Refactoring.Web.Controllers
 {

@@ -7,6 +7,7 @@ using Refactoring.Web.Services;
 using Refactoring.Web.Services.Helpers;
 using Refactoring.Web.Services.Interfaces;
 using Refactoring.Web.Services.Printers;
+using System;
 
 namespace Refactoring.Web
 {
@@ -29,6 +30,7 @@ namespace Refactoring.Web
          services.AddTransient<IDistrictOrderFactory, DistrictOrderFactory>();
          services.AddTransient<IAdvertPrinter, AdvertPrinter>();
          services.AddTransient<IDateTimeResolver, DateTimeResolver>();
+         services.AddTransient<IRandomHelper, RandomHelper>();
       }
 
       // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

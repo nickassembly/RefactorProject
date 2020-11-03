@@ -2,10 +2,6 @@
 using Refactoring.Web.Services.Interfaces;
 using Refactoring.Web.Services.OrderProcessors;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Refactoring.Web.Services
 {
@@ -14,18 +10,23 @@ namespace Refactoring.Web.Services
       private readonly IChamberOfCommerceApi _chamberOfCommerceApi;
       private readonly IAdvertPrinter _printer;
       private readonly IDealService _dealService;
+      private readonly IDateTimeResolver _dateTimeResolver;
 
-      public DistrictOrderFactory(IChamberOfCommerceApi chamberOfCommerceApi, IAdvertPrinter printer, IDealService dealService)
+      public DistrictOrderFactory(IChamberOfCommerceApi chamberOfCommerceApi,
+                                  IAdvertPrinter printer,
+                                  IDealService dealService,
+                                  IDateTimeResolver dateTimeResolver)
       {
          _chamberOfCommerceApi = chamberOfCommerceApi;
          _printer = printer;
          _dealService = dealService;
+         _dateTimeResolver = dateTimeResolver;
       }
       public OrderProcessor For(string district)
       {
          if (district.ToLower() == District.Cambridge)
          {
-            return new CambridgeOrderProcessor(_chamberOfCommerceApi, _printer);
+            return new CambridgeOrderProcessor(_chamberOfCommerceApi, _printer, _dateTimeResolver);
          }
 
          if (district.ToLower() == District.Middleton)

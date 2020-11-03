@@ -4,14 +4,10 @@ using Refactoring.Web.DomainModels;
 using Refactoring.Web.Services;
 using Refactoring.Web.Services.Interfaces;
 using Refactoring.Web.Services.OrderProcessors;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Refactoring.Web.Tests.OrderProcessorTests
+namespace Refactoring.Test.Tests.Services.OrderProcessorTests
 {
    public class TestCambridgeOrderProcessor
    {
@@ -27,7 +23,7 @@ namespace Refactoring.Web.Tests.OrderProcessorTests
          fakeDateTimeResolver.Setup(m => m.IsItTuesday()).Returns(true);
 
          var fakeChamberOfCommerceApi = new Mock<IChamberOfCommerceApi>();
-        
+
          var fakeDataResult = new DataResult
          {
             ThumbnailUrl = "http://example.com/some_thumbnail.png",
@@ -50,12 +46,43 @@ namespace Refactoring.Web.Tests.OrderProcessorTests
          var sut = new CambridgeOrderProcessor(fakeChamberOfCommerceApi.Object, fakeAdvertPrinter.Object, fakeDateTimeResolver.Object);
 
          // Act
-        var result = await sut.PrintAdvertAndUpdateOrder(testOrder);
+         var result = await sut.PrintAdvertAndUpdateOrder(testOrder);
 
          // Assert
          result.Advert.ImageUrl.Should().Be(fakeDataResult.ThumbnailUrl);
       }
 
+      [Fact]
+      public async void GivenDateIsNotTuesday_ImageUrl_NotSet_OnOrderAdvert()
+      {
+         var testOrder = new Order
+         {
+            Id = "foo"
+         };
 
+         var fakeDateTimeResolver = new Mock<IDateTimeResolver>();
+         fakeDateTimeResolver.Setup(m => m.IsItTuesday()).Returns(false);
+
+         var fakeChamberOfCommerceApi = new Mock<IChamberOfCommerceApi>();
+
+         var fakeDataResult = new DataResult
+         {
+            ThumbnailUrl = "http://example.com/some_thumbnail.png",
+            Title = "My Title..."
+         };
+
+         var fakeAdvertPrinter = new Mock<IAdvertPrinter>();
+
+         fakeChamberOfCommerceApi.Setup(m => m.GetImageAndThumbnailDataFor(It.IsAny<string>()))
+            .Returns(Task.FromResult(fakeDataResult));
+
+         var sut = new CambridgeOrderProcessor(fakeChamberOfCommerceApi.Object, fakeAdvertPrinter.Object, fakeDateTimeResolver.Object);
+
+         // Act
+         var result = await sut.PrintAdvertAndUpdateOrder(testOrder);
+
+         // Assert
+         result.Advert.ImageUrl.Should().BeNull();
+      }
    }
 }

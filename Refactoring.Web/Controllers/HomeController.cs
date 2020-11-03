@@ -1,10 +1,10 @@
-﻿using System.Diagnostics;
-using System.Linq;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using Refactoring.Web.Models;
 using Refactoring.Web.Services.Helpers;
+using System.Diagnostics;
+using System.Linq;
 
 namespace Refactoring.Web.Controllers
 {
@@ -20,7 +20,7 @@ namespace Refactoring.Web.Controllers
       public IActionResult Index()
       {
          _logger.LogDebug("Index loaded");
-       
+
          var viewModel = new OrderFormModel
          {
             Districts = District.StandardDistricts.Select(d => new SelectListItem
