@@ -11,16 +11,19 @@ namespace Refactoring.Web.Services
       private readonly IAdvertPrinter _printer;
       private readonly IDealService _dealService;
       private readonly IDateTimeResolver _dateTimeResolver;
+      private readonly IRandomHelper _randomHelper;
 
       public DistrictOrderFactory(IChamberOfCommerceApi chamberOfCommerceApi,
                                   IAdvertPrinter printer,
                                   IDealService dealService,
-                                  IDateTimeResolver dateTimeResolver)
+                                  IDateTimeResolver dateTimeResolver,
+                                  IRandomHelper randomHelper)
       {
          _chamberOfCommerceApi = chamberOfCommerceApi;
          _printer = printer;
          _dealService = dealService;
          _dateTimeResolver = dateTimeResolver;
+         _randomHelper = randomHelper;
       }
       public OrderProcessor For(string district)
       {
@@ -31,7 +34,7 @@ namespace Refactoring.Web.Services
 
          if (district.ToLower() == District.Middleton)
          {
-            return new MiddletonOrderProcessor(_dealService, _chamberOfCommerceApi, _printer);
+            return new MiddletonOrderProcessor(_dealService, _chamberOfCommerceApi, _printer, _randomHelper);
          }
 
          if (district.ToLower() == District.County)

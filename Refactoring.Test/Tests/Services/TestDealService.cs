@@ -10,7 +10,7 @@ namespace Refactoring.Test.Tests.Services
    public class TestDealService
    {
       [Fact]
-      public void DoSomething()
+      public void GetRandomLocalBusiness()
       {
 
       }

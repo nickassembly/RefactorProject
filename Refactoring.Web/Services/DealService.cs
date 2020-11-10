@@ -18,9 +18,6 @@ namespace Refactoring.Web.Services
       public decimal GenerateDeal(DateTime dateTime)
          => IsAfternoon(dateTime) ? PmRate : AmRate;
 
-      public string GetRandomLocalBusiness() 
-         => _randomHelper.GetRandomValueFromList<string>(LocalBusiness.AllBusinesses);
-
       private static bool IsAfternoon(DateTime dateTime) => dateTime.Hour > 12 && dateTime.Hour < 24;
    }
 }
