@@ -3,5 +3,7 @@
    public interface IDateTimeResolver
    {
       bool IsItTuesday();
+
+      bool IsItTheWeekend();
    }
 }

@@ -34,7 +34,7 @@ namespace Refactoring.Web.Services.OrderProcessors
          };
 
          order.Advert = advert;
-         _printer.Print(advert, false);
+         _printer.PrintCustom(advert);
          order.Status = "Complete";
 
          return order;

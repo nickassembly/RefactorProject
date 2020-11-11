@@ -29,7 +29,7 @@ namespace Refactoring.Web.Services.OrderProcessors
             advert.ImageUrl = result.ThumbnailUrl;
          }
          order.Advert = advert;
-         _printer.Print(advert, false);
+         _printer.PrintCustom(advert);
          order.Status = "Complete";
 
          return order;

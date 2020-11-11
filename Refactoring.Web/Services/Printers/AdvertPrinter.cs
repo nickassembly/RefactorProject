@@ -6,16 +6,15 @@ namespace Refactoring.Web.Services.Printers
 {
    public class AdvertPrinter : IAdvertPrinter
    {
-      public void Print(Advert advert, bool IsDefaultAdvert)
+      public void PrintCustom(Advert advert)
       {
-         if (IsDefaultAdvert)
-         {
-            Console.WriteLine("Printing Default Advert");
-         }
-         else
-         {
-            Console.WriteLine("Printing Custom Advert: " + advert.Heading);
-         }
+         Console.WriteLine($"Printing Custom Advert: {advert.Heading}");
+         System.Threading.Thread.Sleep(3000);
+      }
+
+      public void PrintDefault(Advert advert)
+      {
+         Console.WriteLine("Printing Default Advert");
          System.Threading.Thread.Sleep(3000);
       }
 

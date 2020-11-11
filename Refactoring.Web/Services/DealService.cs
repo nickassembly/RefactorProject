@@ -6,14 +6,8 @@ namespace Refactoring.Web.Services
 {
    public class DealService : IDealService
    {
-      private const decimal PmRate = 0.1M;
-      private const decimal AmRate = 0.05M;
-      private readonly IRandomHelper _randomHelper;
-
-      public DealService(IRandomHelper randomHelper)
-      {
-         _randomHelper = randomHelper;
-      }
+      public static decimal PmRate => 0.1M;
+      public static decimal AmRate => 0.05M;
 
       public decimal GenerateDeal(DateTime dateTime)
          => IsAfternoon(dateTime) ? PmRate : AmRate;
