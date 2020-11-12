@@ -44,7 +44,7 @@ namespace Refactoring.Web.Services
 
          if (district.ToLower() == District.Downtown)
          {
-            return new DowntownOrderProcessor(_printer);
+            return new DowntownOrderProcessor(_printer, _dateTimeResolver);
          }
 
          throw new NotImplementedException($"No Processor for {district}");
